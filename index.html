@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Happy Birthday 💗</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Playfair+Display:ital,wght@0,700;1,700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: #ffe6f0;
+      font-family: 'Fredoka', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .wrapper {
+      width: 100%;
+      max-width: 390px;
+      height: 100vh;
+      background-image: url(tikcing.jpeg);
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: background-image 1s ease-in-out;
+    }
+
+    .bg-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0); 
+      transition: background 1s;
+      pointer-events: none;
+      z-index: 1;
+    }
+  
+    .wrapper.surat-active {
+      background-image: url(kita.gif) !important;
+    }
+    .wrapper.surat-active .bg-overlay {
+      background: rgba(0, 0, 0, 0.4);
+    }
+
+    .hidden { display: none !important; }
+
+    .center-box {
+    text-align: center;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .center-box p {
+      margin-top: 20px;
+      background: rgba(255, 255, 255, 0.5);
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-size: 14px;
+    }
+
+    .big {
+      font-size: 90px;
+      animation: bounce 1.5s infinite;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+
+    .slide {
+      position: absolute;
+      top: 0; left: 0;
+      width: calc(100% - 40px);
+      height: calc(100% - 40px);
+      margin: 20px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(40px);
+      transition: all 0.8s ease;
+      padding: 30px;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-radius: 20px;
+      border: 2px solid #ff007f;
+      z-index: 5;
+    }
+
+    .slide.active { opacity: 1; visibility: visible; transform: translateY(0); }
+
+    .scroll-slide {
+      justify-content: flex-start !important;
+      overflow-y: auto !important;
+      display: flex !important;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 80px !important;
+      padding-bottom: 120px !important;
+      background: rgba(255, 255, 255, 0.100) !important;
+    }
+
+    .scroll-slide::-webkit-scrollbar { display: none; }
+
+    h1, h2, h3, h4, h5 {
+      color: #ff007f !important; 
+      margin: 10px 0; 
+      text-shadow: 1px 1px 0px #fff, 2px 2px 4px rgba(0,0,0,0.1); 
+    }
+    
+    p {
+      font-family: 'Quicksand', sans-serif;
+      color: #ff007f !important;
+      font-weight: 600;
+      line-height: 1.6;
+    }
+
+    .kitty { width: 120px; margin: 15px 0; }
+
+    .btn-container { display: flex; gap: 15px; margin-top: 20px; }
+    .btn {
+      padding: 10px 25px;
+      border-radius: 20px;
+      border: none;
+      cursor: pointer;
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 600;
+      transition: 0.2s;
+    }
+    .btn-yes { background: #ff4f9a; color: white; }
+    .btn-no { background: white; color: #ff4f9a; border: 2px solid #ff4f9a; }
+    .btn:active { transform: scale(0.9); }
+
+    .letter-open-anim { animation: letterOpen 1s ease-in-out forwards; }
+    @keyframes letterOpen {
+      0% { transform: scale(1); opacity: 1; }
+      100% { transform: scale(4); opacity: 0; }
+    }
+
+    .golden-ticket {
+      background: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+      width: 310px;
+      padding: 12px;
+      position: relative;
+      transform: scale(0);
+      transition: all 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      z-index: 100;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+      
+      --mask: radial-gradient(10px at 10px 10px, #0000 98%, #000) -10px -10px;
+      -webkit-mask: var(--mask);
+      mask: var(--mask);
+    }
+    
+    .golden-ticket.show { transform: scale(1) rotate(-1deg); }
+
+    .ticket-content {
+      border: 1.5px solid rgba(93, 64, 55, 0.2);
+      padding: 25px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 5px;
+    }
+
+    .ticket-content h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      font-style: italic;
+      letter-spacing: 1px;
+      margin: 0;
+      color: #5d4037 !important;
+      text-shadow: none !important;
+    }
+
+    .ticket-content p {
+      font-family: 'Quicksand', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 10px;
+      margin: 10px 0;
+      color: #5d4037 !important;
+      text-shadow: none !important;
+    }
+
+    .confetti { position: fixed; z-index: 9999; pointer-events:
+      none; }
+
+    .voucher-card {
+      background: golden;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(255, 0, 127, 0.2);
+      border: 2px dashed #ff007f;
+      transform: scale(0);
+      transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      z-index: 100;
+      position: relative;
+    }
+    
+    .voucher-card.show {
+      transform: scale(1);
+    }
+
+    .voucher-header {
+      font-size: 12px;
+      color: #ff007f;
+      letter-spacing: 2px;
+      font-weight: bold;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 10px;
+      margin-bottom: 15px;
+    }
+
+    .heart {
+      position: fixed; bottom: -20px; color: #ff6fb1;
+      font-size: 18px; z-index: 0; pointer-events: none;
+      animation: floatUp linear forwards;
+    }
+    @keyframes floatUp { to { transform: translateY(-110vh) rotate(360deg); opacity: 0; } }
+
+    .tap-controller {
+      position: absolute;
+      left: 0;
+      bottom: 25px;
+      width: 100%;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      pointer-events: none;
+    }
+
+    .tap-hint {
+      font-size: 12px;
+      color: #ff77b7;
+      animation: blink 1.4s infinite;
+      background: rgba(255, 255, 255, 0.4);
+      padding: 5px 15px;
+      border-radius: 20px;
+    }
+
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+  </style>
+</head>
+<body>
+
+<div class="wrapper" id="mainWrapper">
+  <div class="bg-overlay"></div>
+
+  <div id="letter" class="center-box">
+    <div class="big" onclick="openLetter()">💌</div>
+    <p>tap to open my special letter</p>
+  </div>
+
+  <div id="slides" class="hidden" onclick="handleTap(event)">
+    <div class="slide active">
+      <img src="nyantai.gif" class="kitty">
+      <h1>HEYYOW BABYY</h1>
+      <p>I've got something special for u and i'm sure you'll like it 💗</p>
+    </div>
+
+    <div class="slide">
+      <h2>💗 OPENING LETTER 💗</h2>
+      <img src="pocoyo.gif" class="kitty">
+      <p>Even the content may be simple, I want you to know that you're the only reason i make this. Finally the hard work for several days paid off, im so excited to make this for you. Thank you so much for exist in this world, coming into my life and choosing me as your boyfie. Thank you also for being my someone special who made me want to learn so far. 💖</p>
+    </div>
+
+    <div class="slide" onclick="event.stopPropagation()">
+      <img src="tepuk.gif" class="kitty">
+      <h3>Are youu ready babyy? 🤔</h3>
+      <div class="btn-container">
+        <button class="btn btn-yes" onclick="jumpToSurat()">YUPS more than ready hihi..</button>
+        <button class="btn btn-no" onclick="nextSlide()">Hump No!</button>
+      </div>
+    </div>
+
+    <div class="slide" onclick="event.stopPropagation()">
+      <img src="kiss.gif" class="kitty">
+      <h3>utututu are you okey my cutie baby</h3>
+      <p>its okey baby im here for you, lemme hug you</p>
+      <p>feels better baby?</p>
+      <button class="btn btn-yes" onclick="prevSlide()">YESS, mwehehe tencuu babyy..</button>
+    </div>
+
+    <div class="slide scroll-slide" onclick="event.stopPropagation()">
+      <div style="width: 100%; max-width: 300px;">
+        <h3>🎁ITS YOUR SPECIAL DAY🎁</h3>
+        <p>Happy birthday, honey! I'm so happy to celebrate your birthday this year, and hopefully in the next few years we can do the same. Many good wishes that I always wish for you, especially true happiness for you.</p>
+
+        <p>Thank you, darling, for being in my life and giving me such beautiful colors. From you, I learned so much about understanding, loving, cherishing, longing, happiness, beauty, fear of loss and more that I can't name all. I hope you are always given a long life, a blessed life, smoothness in all matters, loved by many people for no reason, and can realize our dreams together.</p>
+
+        <p>I will always support you with all my heart, whatever it is. I will always encourage you, be by your side, comfort you when sad, make you happy, and love you sincerely. You really deserve all of that. I know you always fight hard despite not many people knowing, always thinking of others, and always doing good. I hope all the good you give will come back to you as happiness.</p>
+
+        <p>Although there are still many things we need to fix, terutama aku, I am so grateful that you're still willing to fight together.  My love for you is sincere, regardless of anything, because what I love is you and everything about you. I love you with a feeling that cannot be represented by anything in this world.</p>
+        <img src="panah.gif" class="kitty">
+        <div onclick="nextSlideFromSurat()" style="margin-top: 20px; color: #ff4f9a; font-weight: bold; cursor: pointer; padding: 20px;">
+          ( tap here to continue baby 💕 )
+        </div>
+
+        <div style="height: 50px;"></div> 
+      </div>
+    </div>
+
+    <div class="slide">
+      <h4>🎁WILL THERE BE A PART 2??🤔😏</h4>
+      <img src="geol.gif" class="kitty">
+      <p>Of course there is baby, part 2 is something more fun💖</p>
+       <p>you have to know baby, with me everything about you i'll celebrate. you deserve all of this baby. so let's see what the next gift is...</p>
+    </div>
+
+    <div class="slide">
+      <div id="giftContainer">
+        <div class="big" style="font-size:90px; cursor:pointer;" onclick="openGoldenTicket(this)">🎁</div>
+        <img src="ayam.gif" class="kitty">
+        <p>let's open the gift... mwehehe 🎀</p>
+      </div>
+
+      <div id="specialVoucher" class="golden-ticket hidden">
+        <div class="ticket-content">
+          <div style="font-size: 8px; letter-spacing: 4px; font-weight: bold; opacity: 0.6; color: #5d4037; margin-bottom: 5px;">OFFICIAL INVITATION</div>
+          
+          <h2>Golden Ticket</h2>
+          
+          <div style="width: 40px; height: 1px; background: #5d4037; margin: 15px 0; opacity: 0.2;"></div>
+
+          <p>This voucher entitles you to</p>
+          <div style="font-family: 'Playfair Display', serif; font-size: 18px; color: #5d4037; font-weight: bold; margin-bottom: 20px;">
+             A Special Date with Fazi
+          </div>
+
+          <div style="text-align: left; font-size: 11px; width: 100%; padding: 15px; background: rgba(255,255,255,0.2); border-radius: 4px; color: #5d4037;">
+             <div style="margin-bottom: 8px; display: flex; justify-content: space-between;">
+                <span>DATE</span> <b>Sunday, 21 Dec</b>
+             </div>
+             <div style="margin-bottom: 8px; display: flex; justify-content: space-between;">
+                <span>TIME</span> <b>14.00 PM - END</b>
+             </div>
+             <div style="display: flex; justify-content: space-between;">
+                <span>LOCATION</span> <b>Secret Place 🌸</b>
+             </div>
+          </div>
+
+          <div style="margin-top: 25px; font-size: 9px; border: 1px solid #5d4037; color: #5d4037 !important; padding: 4px 15px; border-radius: 20px; font-weight: bold; letter-spacing: 1px;">
+            VALID FOR ONE PERSON ONLY
+          </div>
+          
+          <div style="font-family: 'Playfair Display', serif; font-size: 12px; margin-top: 15px; opacity: 0.5; color: #5d4037;">
+            No. 0001-LOVE-FAZI
+          </div>
+        </div>
+  </div>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const wrapper = document.getElementById('mainWrapper');
+  let current = 0;
+
+  function openGoldenTicket(element) {
+    const container = document.getElementById('giftContainer');
+    const voucher = document.getElementById('specialVoucher');
+    
+    for (let i = 0; i < 40; i++) {
+      createConfettiCustom(window.innerWidth/2, window.innerHeight/2);
+    }
+
+    container.classList.add('hidden');
+
+    voucher.classList.remove('hidden');
+    setTimeout(() => {
+      voucher.classList.add('show');
+    }, 100);
+
+    setTimeout(nextSlide, 5500);
+  }
+
+  function createConfettiCustom(x, y) {
+    const emojis = ['✨', '⭐', '🎫', '💖', '👑'];
+    const c = document.createElement('div');
+    c.className = 'confetti';
+    c.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+    c.style.left = x + 'px';
+    c.style.top = y + 'px';
+    c.style.fontSize = '25px';
+    const vX = (Math.random() - 0.5) * 600;
+    const vY = (Math.random() - 0.5) * 600 - 200;
+    c.animate([
+      { transform: 'translate(0,0) scale(0)', opacity: 1 },
+      { transform: `translate(${vX}px, ${vY}px) scale(1.5)`, opacity: 1, offset: 0.2 },
+      { transform: `translate(${vX * 1.2}px, ${window.innerHeight}px) rotate(720deg)`, opacity: 0 }
+    ], { duration: 3000, easing: 'cubic-bezier(0.1, 1, 0.3, 1)' });
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 3000);
+  }
+
+  function openLetter() {
+    const bigEmoji = document.querySelector('#letter .big');
+    bigEmoji.classList.add('letter-open-anim');
+    setTimeout(() => {
+      document.getElementById('letter').classList.add('hidden');
+      document.getElementById('slides').classList.remove('hidden');
+    }, 800);
+  }
+
+  function jumpToSurat() {
+    wrapper.classList.add('surat-active');
+    slides[current].classList.remove('active');
+    current = 4;
+    slides[current].classList.add('active');
+  }
+
+  function nextSlideFromSurat() {
+    wrapper.classList.remove('surat-active');
+    nextSlide();
+  }
+
+  function handleTap(e) {
+    const x = e.clientX;
+    const y = e.clientY;
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+
+    if (current === 2 || current === 3) return;
+
+    if (current === 4) {
+      if (y > height * 0.7) nextSlide();
+      return; 
+    }
+
+    if (x < width / 2) prevSlide();
+    else nextSlide();
+  }
+
+  function nextSlide() {
+    if (current >= slides.length - 1) return;
+    slides[current].classList.remove('active');
+    current++;
+    slides[current].classList.add('active');
+  }
+
+  function prevSlide() {
+    if (current <= 0) return;
+    if (current === 4) wrapper.classList.remove('surat-active');
+    slides[current].classList.remove('active');
+    current--;
+    slides[current].classList.add('active');
+  }
+
+  function openGift(element) {
+    const container = document.getElementById('giftContainer');
+    const voucher = document.getElementById('specialVoucher');
+
+    for (let i = 0; i < 40; i++) {
+      createConfetti(window.innerWidth/2, window.innerHeight/2);
+    }
+
+    container.classList.add('hidden');
+
+    voucher.classList.remove('hidden');
+    setTimeout(() => {
+      voucher.classList.add('show');
+    }, 100);
+
+    setTimeout(nextSlide, 4500);
+  }
+
+  function createConfetti(x, y) {
+    const emojis = ['🐱', '💖', '🎂', '🎈', '✨'];
+    const c = document.createElement('div');
+    c.className = 'confetti';
+    c.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+    c.style.left = x + 'px';
+    c.style.top = y + 'px';
+    c.style.fontSize = '25px';
+    
+    const vX = (Math.random() - 0.5) * 600;
+    const vY = (Math.random() - 0.5) * 600 - 200;
+    
+    c.animate([
+      { transform: 'translate(0,0) scale(0)', opacity: 1 },
+      { transform: `translate(${vX}px, ${vY}px) scale(1.5)`, opacity: 1, offset: 0.2 },
+      { transform: `translate(${vX * 1.2}px, ${window.innerHeight}px) rotate(720deg)`, opacity: 0 }
+    ], { duration: 3000, easing: 'cubic-bezier(0.1, 1, 0.3, 1)' });
+
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 3000);
+  }
+
+  function spawnHeart() {
+    const h = document.createElement('div');
+    h.className = 'heart';
+    h.innerText = '❤';
+    h.style.left = Math.random() * 100 + 'vw';
+    h.style.fontSize = (Math.random() * 10 + 15) + 'px';
+    h.style.animationDuration = (Math.random() * 3 + 3) + 's';
+    document.body.appendChild(h);
+    setTimeout(() => h.remove(), 6000);
+  }
+  setInterval(spawnHeart, 400);
+</script>
+</body>
+</html>
